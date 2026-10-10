@@ -6,6 +6,12 @@ let imagenes = [];
 let linterna;
 let piernas;
 let sirena;
+let lluvia;
+let afuera;
+let luz;
+let papel;
+
+let papelReproducido = false;
 
 let caracteresVisibles = 0;
 let velocidadTexto = 0.5;
@@ -43,7 +49,12 @@ function preload() {
   
   luzFarol = loadImage("assets/luz.png");
   sirena = loadSound("assets/sirena.mp3");
-
+  
+  lluvia = loadSound("assets/lluviaadentro.mp3");
+  afuera = loadSound("assets/lluviaafuera.mp3");
+  luz = loadSound("assets/luz.mp3");
+  
+  papel = loadSound("assets/papel.mp3");
   
   spritesDetective[0] = loadImage("assets/tile000.png");
   spritesDetective[1] = loadImage("assets/tile001.png");
@@ -70,6 +81,49 @@ function draw() {
     }
   }
 
+  //sonido de la lluvia adentro
+  if (pantallaActual === 1 || pantallaActual === 4 || pantallaActual === 12 || pantallaActual === 13 || pantallaActual === 14) {
+    if (lluvia && lluvia.isLoaded() && !lluvia.isPlaying()) {
+      lluvia.setVolume(0.2);
+      lluvia.loop(); 
+    }
+  } else {
+    if (lluvia && lluvia.isPlaying()) {
+      lluvia.stop(); 
+    }
+  }
+  
+  //sonido de la lluvia de afuera
+  if (pantallaActual === 3 || pantallaActual === 6 || pantallaActual === 7 || pantallaActual === 8 || pantallaActual === 10 || pantallaActual === 11) {
+    if (afuera && afuera.isLoaded() && !afuera.isPlaying()) {
+      afuera.setVolume(0.3);
+      afuera.loop(); 
+    }
+  } else {
+    if (afuera && afuera.isPlaying()) {
+      afuera.stop(); 
+    }
+  }
+  
+  //sonido de la luz parpadeante de la ultima pantalla
+  if (pantallaActual === 15) { 
+    if (luz && luz.isLoaded() && !luz.isPlaying()) {
+      luz.setVolume(0.1);
+      luz.loop(); 
+    }
+  } else {
+    if (luz && luz.isPlaying()) {
+      luz.stop(); 
+    }
+  }
+  
+  
+  if (pantallaActual === 2 && !papelReproducido) {
+  papel.play();
+  papelReproducido = true;
+}
+  
+//PANTALLAS
   if (pantallaActual === 1) {
     if (imagenes[1]) image(imagenes[1], 0, 0, width, height);
 
@@ -410,10 +464,12 @@ function mousePressed() {
       pantallaActual = 3;
       compañero = false;
       caracteresVisibles = 0;
+      papelReproducido = false;
     } else if (colisionBoton(420, 350, 230, 50)) {
       pantallaActual = 8;
       compañero = true;
       caracteresVisibles = 0;
+      papelReproducido = false;
     }
   } else if (pantallaActual == 3) {
     if (colisionBoton(700, 380, 30, 30)) {
