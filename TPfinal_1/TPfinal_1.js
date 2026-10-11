@@ -49,7 +49,7 @@ function preload() {
   
   luzFarol = loadImage("assets/luz.png");
   sirena = loadSound("assets/sirena.mp3");
-  
+ 
   lluvia = loadSound("assets/lluviaadentro.mp3");
   afuera = loadSound("assets/lluviaafuera.mp3");
   luz = loadSound("assets/luz.mp3");
@@ -73,6 +73,7 @@ function draw() {
   // Control del sonido de las sirenas
   if (pantallaActual === 5 || pantallaActual === 9) {
     if (sirena && sirena.isLoaded() && !sirena.isPlaying()) {
+      sirena.setVolume(0.3);
       sirena.loop(); 
     }
   } else {
@@ -80,7 +81,7 @@ function draw() {
       sirena.stop(); 
     }
   }
-
+  
   //sonido de la lluvia adentro
   if (pantallaActual === 1 || pantallaActual === 4 || pantallaActual === 12 || pantallaActual === 13 || pantallaActual === 14) {
     if (lluvia && lluvia.isLoaded() && !lluvia.isPlaying()) {
@@ -123,6 +124,7 @@ function draw() {
   papelReproducido = true;
 }
   
+
 //PANTALLAS
   if (pantallaActual === 1) {
     if (imagenes[1]) image(imagenes[1], 0, 0, width, height);
